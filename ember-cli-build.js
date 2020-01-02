@@ -1,9 +1,37 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const { DuplicatesPlugin } = require('inspectpack/plugin');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
+    autoImport: {
+      webpack: {
+        module: {
+          rules: [
+            {
+              test: /\.css$/i,
+              use: [
+                { loader: 'style-loader', options: { insert: function (element) { document.getElementsByTagName('head')[0].prepend(element); } } },
+                'css-loader',
+              ],
+            },
+            {
+              test: /\.(woff|woff2|eot|ttf|svg)$/,
+              use: [
+                { loader: 'file-loader' },
+              ],
+            },
+          ],
+        },
+        plugins: [
+          new DuplicatesPlugin({
+            emitError: true,
+            verbose: true,
+          }),
+        ],
+      },
+    },
     // Add options here
   });
 

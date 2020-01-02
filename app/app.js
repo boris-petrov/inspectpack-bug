@@ -9,4 +9,8 @@ export default class App extends Application {
   Resolver = Resolver;
 }
 
+async function loadC3() {
+  const css = await import('c3/c3.css');
+}
+
 loadInitializers(App, config.modulePrefix);
